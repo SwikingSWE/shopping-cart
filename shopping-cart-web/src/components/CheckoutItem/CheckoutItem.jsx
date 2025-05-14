@@ -1,4 +1,3 @@
-// web/src/components/CheckoutItem.jsx
 import {
   ListItem,
   ListItemText,

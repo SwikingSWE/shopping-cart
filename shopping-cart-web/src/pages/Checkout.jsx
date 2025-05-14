@@ -1,4 +1,3 @@
-// web/src/pages/Checkout.jsx
 import {
   Container,
   Typography,

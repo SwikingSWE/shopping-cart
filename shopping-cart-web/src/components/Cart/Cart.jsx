@@ -1,4 +1,3 @@
-// web/src/components/CartPopper.jsx
 import {
   Paper,
   Popper,

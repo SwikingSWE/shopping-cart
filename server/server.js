@@ -1,4 +1,3 @@
-// server/server.js
 const express = require("express");
 const cors = require("cors");
 const inventory = require("./inventory.json");
