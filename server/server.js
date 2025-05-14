@@ -8,7 +8,8 @@ app.use(cors());
 
 app.get("/api/products", (req, res) => res.json(inventory));
 app.get("/api/products/:id", (req, res) => {
-  const product = inventory.find((p) => p.id === req.params.id);
+  const id = Number(req.params.id);
+  const product = inventory.items.find((p) => p.id === id);
   if (!product) return res.status(404).json({ error: "Not found" });
   res.json(product);
 });
