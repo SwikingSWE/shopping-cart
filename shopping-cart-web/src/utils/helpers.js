@@ -15,3 +15,17 @@ export const formatSelectedOptions = (options) => {
   );
   return `(${parts.join(", ")})`;
 };
+
+export const compareVariant = (variants, selectedOptions, optionKeys) => {
+  return variants.find((variant) =>
+    optionKeys.every((key) => {
+      const selectedValue = selectedOptions[key];
+      const variantValue = variant[key];
+
+      if (Array.isArray(variantValue)) {
+        return variantValue.includes(selectedValue);
+      }
+      return variantValue === selectedValue;
+    })
+  );
+};

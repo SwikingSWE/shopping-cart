@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useGetProductByIdQuery } from "../features/slices/products/productsSlice";
 import { addItem } from "../features/slices/cart/cartSlice";
+import { compareVariant } from "../utils/helpers";
 
 export const ProductDetails = () => {
   const { id } = useParams();
@@ -25,18 +26,21 @@ export const ProductDetails = () => {
   const [selected, setSelected] = useState({});
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <Container sx={{ mt: 4 }}>
         <CircularProgress />
       </Container>
     );
-  if (isError || !product)
+  }
+
+  if (isError || !product) {
     return (
       <Container sx={{ mt: 4 }}>
         <Alert severity="error">Product not found</Alert>
       </Container>
     );
+  }
 
   const variants = product.options ?? [];
 
@@ -48,26 +52,31 @@ export const ProductDetails = () => {
     )
   );
 
+  console.log(optionKeys);
+
   const valuesByKey = {};
+
   optionKeys.forEach((key) => {
+    const relevantOptions = variants.filter((variant) =>
+      Object.entries(selected).every(([selectedKey, selectedValue]) => {
+        if (selectedKey === key) return true;
+        const variantValue = variant[selectedKey];
+        return Array.isArray(variantValue)
+          ? variantValue.includes(selectedValue)
+          : variantValue === selectedValue;
+      })
+    );
+
     valuesByKey[key] = Array.from(
       new Set(
-        variants.flatMap((variant) =>
+        relevantOptions.flatMap((variant) =>
           Array.isArray(variant[key]) ? variant[key] : [variant[key]]
         )
       )
     );
   });
 
-  const matchingVariant = variants.find((variant) =>
-    optionKeys.every((key) => {
-      const selectedValue = selected[key];
-      const variantValue = variant[key];
-      if (Array.isArray(variantValue))
-        return variantValue.includes(selectedValue);
-      return variantValue === selectedValue;
-    })
-  );
+  const matchingVariant = compareVariant(variants, selected, optionKeys);
 
   const handleChange = (key, value) => {
     setSelected((prev) => ({ ...prev, [key]: value }));

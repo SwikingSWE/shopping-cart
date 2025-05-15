@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { findCartItem, removeCartItem } from "../../../utils/cartHelpers";
+import { findCartItem, removeCartItem } from "../../../utils/helpers";
 
 const initialState = {
   items: [],

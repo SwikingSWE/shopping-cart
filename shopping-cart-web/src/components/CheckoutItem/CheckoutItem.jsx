@@ -14,7 +14,7 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { formatSelectedOptions } from "../../utils/cartHelpers";
+import { formatSelectedOptions } from "../../utils/helpers";
 
 export const CheckoutItem = ({ item }) => {
   const dispatch = useDispatch();
